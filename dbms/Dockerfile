@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER Taiichi Igawa <ihciiat@gmail.com>
 
 RUN apt-get update && \
-    apt-get install -y -q postgresql-9.3 libpq-dev postgresql-client-9.3 postgresql-contrib-9.3 && \
+    apt-get install -y -q postgresql-9.3 libpq-dev postgresql-client-9.3 postgresql-contrib-9.3 iotop && \
     rm -rf /var/lib/apt/lists/*
 
 USER postgres
@@ -13,6 +13,11 @@ RUN /etc/init.d/postgresql start &&\
     echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 EXPOSE 5432
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+
+ENV PATH $PATH:/usr/lib/postgresql/9.3/bin
+ENV PGDATA /var/lib/postgresql/9.3/main
+
+#RUN echo 'postgres:postgres' | chpasswd
 
 CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]

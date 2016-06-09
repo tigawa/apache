@@ -6,6 +6,8 @@ services:
       - config:/etc/postgresql
       - data:/var/lib/postgresql
       - log:/var/log/postgresql
+    ports:
+      - 5432:5432
 volumes:
   config:
   data:
