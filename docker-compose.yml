@@ -1,14 +1,10 @@
-version: '2'
+version: "2"
 services:
-  dbms:
-    build: ./dbms
+  apache:
+    image: httpd
     volumes:
-      - config:/etc/postgresql
-      - data:/var/lib/postgresql
-      - log:/var/log/postgresql
+      - ./htdocs:/usr/local/apache2/htdocs
+      - ./logs:/usr/local/apache2/logs
+      - ./conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
     ports:
-      - 5432:5432
-volumes:
-  config:
-  data:
-  log:
+      - "80:80"
